@@ -9,9 +9,8 @@ from train_loop import Train
 import time
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 n_epochs = np.arange(20, 1000, 50)
-batch_size = 64
-train_loader = get_train_loader(batch_size=batch_size)
-val_loader = get_val_loader(batch_size=batch_size)
+train_loader = get_train_loader()
+val_loader = get_val_loader()
 SGD_times = []
 Adam_times = []
 train_SGD_losses = []
