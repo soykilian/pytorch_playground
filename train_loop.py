@@ -2,13 +2,15 @@ import torch
 from tqdm import tqdm
 
 
-def Train(train_loader, val_loader, model, loss_fn, optimizer, n_epochs):
+def Train(train_loader, val_loader, model, loss_fn, optimizer, n_epochs, device):
     val_losses = []
     train_losses =[]
     for epoch in tqdm(range(n_epochs)):
         total_train_loss = 0.0
         total_val_loss = 0.0
         for data,target in train_loader:
+            data = data.to(device)
+            target = target.to(device)
             model.train()                   # set model in training mode
             yhat = model(data)    # forward propogation (prediction)
             loss = loss_fn(yhat, target)  # compute the loss
@@ -19,6 +21,8 @@ def Train(train_loader, val_loader, model, loss_fn, optimizer, n_epochs):
         with torch.no_grad():
             model.eval()
             for data_val, target_val in val_loader:
+                data_val = data_val.to(device)
+                target_val = target_val.to(device)
                 y_hat_val = model(data_val)
                 val_loss = loss_fn(y_hat_val, target_val)
                 total_val_loss += val_loss.item()
